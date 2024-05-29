@@ -1,0 +1,26 @@
+steps:
+  - task: AzureResourceGroupDeployment@2
+    inputs:
+      azureSubscription: ${{ parameters.subscriptionServiceConnection }}
+      action: "Create Or Update Resource Group"
+      resourceGroupName: ${{ parameters.resourceGroupName }}
+      location: ${{ parameters.location }}
+      templateLocation: "Linked artifact"
+      csmFile: "$(Build.Repository.LocalPath)/Processing/Middleware_IaC/Middleware-IAC-arm-templates/arm-templates/arm-resource-templates/event-hub.json"
+      csmParametersFile: "$(Build.Repository.LocalPath)/Processing/Middleware_IaC/Middleware-IAC-arm-templates/arm-templates/arm-resource-parameters/event-hub.parameters.json"
+      overrideParameters: "-namespaceName ${{ parameters.namespaceName }} -smkpidlqEventHubName ${{ parameters.smkpidlqEventHubName }} -smkpiconfigEventHubName ${{ parameters.smkpiconfigEventHubName }} -smkpiseqEventHubName ${{ parameters.smkpiseqEventHubName }} -smkpifuncEventHubName ${{ parameters.smkpifuncEventHubName }} -pmconfigEventHubName ${{ parameters.pmconfigEventHubName }} -genSchedulerEventHubName ${{ parameters.genSchedulerEventHubName }} -ohdpEventHubName ${{ parameters.ohdpEventHubName }} -smkpidlqconsumerGroupName ${{ parameters.smkpidlqconsumerGroupName }} -smkpiconfconsumerGroupName ${{ parameters.smkpiconfconsumerGroupName }} -smkpiseqconsumerGroupName ${{ parameters.smkpiseqconsumerGroupName }} -pmconfigIAconsumerGroupName ${{ parameters.pmconfigIAconsumerGroupName }} -pmconfigSMKPIconsumerGroupName ${{ parameters.pmconfigSMKPIconsumerGroupName }} -smkpiinstanceconsumerGroupName ${{ parameters.smkpiinstanceconsumerGroupName }} -iakpiroleconsumerGroupName ${{ parameters.iakpiroleconsumerGroupName }} -assetEventHubName ${{ parameters.assetEventHubName }} -genSchedulerConsumerGroupName ${{ parameters.genSchedulerConsumerGroupName }}-genSchInsightExpireConsumerGroupName ${{ parameters.genSchInsightExpireConsumerGroupName }} -genSchedulerOrchConsumerGroupName ${{ parameters.genSchedulerOrchConsumerGroupName }}-ohdpconsumerGroupName ${{ parameters.ohdpconsumerGroupName }} -eventhubSku ${{ parameters.eventhubSku }} -skuCapacity ${{ parameters.skuCapacity }}" 
+      deploymentMode: "Incremental"
+    displayName: "Deploy Event-Hub Cluster"
+
+  - task: AzureResourceGroupDeployment@2
+    inputs:
+      azureSubscription: ${{ parameters.subscriptionServiceConnection }}
+      action: "Create Or Update Resource Group"
+      resourceGroupName: ${{ parameters.resourceGroupName }}
+      location: ${{ parameters.location }}
+      templateLocation: "Linked artifact"
+      csmFile: "$(Build.Repository.LocalPath)/Processing/Middleware_IaC/Middleware-IAC-arm-templates/arm-templates/arm-resource-templates/event-hub-ia.json"
+      csmParametersFile: "$(Build.Repository.LocalPath)/Processing/Middleware_IaC/Middleware-IAC-arm-templates/arm-templates/arm-resource-parameters/event-hub-ia.parameters.json"
+      overrideParameters: "-namespaceNameIA ${{ parameters.namespaceNameIA }} -iaevalutekpiEventHubName ${{ parameters.iaevalutekpiEventHubName }} -iaactionwoEventHubName ${{ parameters.iaactionwoEventHubName }} -iaevaluatecvEventHubName ${{ parameters.iaevaluatecvEventHubName }} -iaactionsEventHubName ${{ parameters.iaactionsEventHubName }} -iasightsEventHubName ${{ parameters.iasightsEventHubName }} -iaevaluatekpiconsumerGroupName ${{ parameters.iaevaluatekpiconsumerGroupName }} -iaactionwoconsumerGroupName ${{ parameters.iaactionwoconsumerGroupName }} -iaevaluatecvconsumerGroupName ${{ parameters.iaevaluatecvconsumerGroupName }}  -iasightsconsumerGroupName ${{ parameters.iasightsconsumerGroupName }} -iaactionsconsumerGroupName ${{ parameters.iaactionsconsumerGroupName }} -eventhubSku ${{ parameters.eventhubSku }} -skuCapacity ${{ parameters.skuCapacity }}" 
+      deploymentMode: "Incremental"
+    displayName: "Deploy Event-Hub IA Cluster"
